@@ -3,6 +3,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { PlusIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { CustomerTable } from '@/components/CustomerTable'
 import { Customer } from '@/types/customer'
 import { MOCK_CUSTOMERS } from '@/data/mockCustomer'
@@ -12,6 +13,8 @@ interface CustomersPageProps {
 }
 
 export default function CustomersPage({ initialCustomers }: CustomersPageProps) {
+  const router = useRouter()
+  
   const [customers, setCustomers] = useState<Customer[]>(initialCustomers || [])
   const [isLoading, setIsLoading] = useState(!initialCustomers?.length)
 
@@ -41,7 +44,7 @@ export default function CustomersPage({ initialCustomers }: CustomersPageProps) 
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 shrink-0"
-            onClick={() => console.log('Navigate to /customers/new')}
+            onClick={() => router.push('/register')}
           >
             <PlusIcon className="mr-2 h-4 w-4" aria-hidden="true" />
             Add Customer
