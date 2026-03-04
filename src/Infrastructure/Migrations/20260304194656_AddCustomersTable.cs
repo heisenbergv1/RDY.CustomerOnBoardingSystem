@@ -20,6 +20,7 @@ namespace Infrastructure.Migrations
                     LastName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    SignatureBase64 = table.Column<string>(type: "TEXT", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

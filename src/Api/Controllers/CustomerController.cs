@@ -33,7 +33,8 @@ namespace Api.Controllers
                 request.FirstName,
                 request.LastName,
                 request.Email,
-                request.PhoneNumber);
+                request.PhoneNumber,
+                request.SignatureBase64);
 
             var result = await _mediator.Send(command);
 

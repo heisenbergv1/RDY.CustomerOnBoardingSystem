@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Integration/Integration.csproj" Id="3a95ba6d-ce0c-4393-bdf8-e88bab66c530" />
+  </Folder>
   <Project Path="Api/Api.csproj" />
   <Project Path="Application/Application.csproj" />
   <Project Path="Domain/Domain.csproj" />

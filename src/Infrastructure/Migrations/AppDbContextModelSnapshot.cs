@@ -42,7 +42,12 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SignatureBase64")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

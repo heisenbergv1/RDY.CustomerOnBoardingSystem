@@ -9,7 +9,8 @@ public sealed record CreateCustomerCommand(
     string FirstName,
     string LastName,
     string Email,
-    string? PhoneNumber) : IRequest<CreateCustomerResponse>;
+    string PhoneNumber,
+    string SignatureBase64) : IRequest<CreateCustomerResponse>;
 
 public sealed record CreateCustomerResponse(bool Success, int CustomerId);
 
@@ -24,6 +25,20 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
 
     public async Task<CreateCustomerResponse> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
+        if (!string.IsNullOrWhiteSpace(request.SignatureBase64))
+        {
+            try
+            {
+                var bytes = Convert.FromBase64String(request.SignatureBase64);
+                if (bytes.Length == 0)
+                    throw new InvalidOperationException("Signature cannot be empty");
+            }
+            catch (FormatException)
+            {
+                throw new InvalidOperationException("Signature must be a valid Base64 string");
+            }
+        }
+
         var customer = new Customer
         {
             FirstName = request.FirstName,
@@ -32,8 +47,6 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
             PhoneNumber = request.PhoneNumber,
             DateCreated = DateTime.UtcNow
         };
-
-        throw new Exception("TEST Simulated exception for testing purposes.");
 
         await _repository.AddAsync(customer, cancellationToken);
 

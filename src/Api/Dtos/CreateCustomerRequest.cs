@@ -3,19 +3,23 @@
 namespace Api.Dtos;
 
 public sealed record CreateCustomerRequest(
-    [param: Required(ErrorMessage = "FirstName is required")]
-    [param: RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "FirstName must contain letters only")]
+    [Required(ErrorMessage = "FirstName is required")]
+    [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "FirstName must contain letters only")]
     string FirstName,
 
-    [param: Required(ErrorMessage = "LastName is required")]
-    [param: RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "LastName must contain letters only")]
+    [Required(ErrorMessage = "LastName is required")]
+    [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "LastName must contain letters only")]
     string LastName,
 
-    [param: Required(ErrorMessage = "Email is required")]
-    [param: EmailAddress(ErrorMessage = "Email must be valid")]
+    [Required(ErrorMessage = "Email is required")]
+    [EmailAddress(ErrorMessage = "Email must be valid")]
     string Email,
 
-    [param: Required(ErrorMessage = "PhoneNumber is required")]
-    [param: RegularExpression(@"^\d+$", ErrorMessage = "PhoneNumber must contain numbers only")]
-    string PhoneNumber
+    [Required(ErrorMessage = "PhoneNumber is required")]
+    [RegularExpression(@"^\d+$", ErrorMessage = "PhoneNumber must contain numbers only")]
+    string PhoneNumber,
+
+    [Required(ErrorMessage = "Signature is required")]
+    [MaxLength(50000, ErrorMessage = "Signature is too long")]
+    string SignatureBase64
 );

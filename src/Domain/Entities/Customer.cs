@@ -21,8 +21,12 @@ public class Customer
     [MaxLength(255)]
     public string Email { get; set; } = default!;
 
+    [Required]
     [MaxLength(50)]
-    public string? PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = default!;
+
+    [Required]
+    public string SignatureBase64 { get; set; } = default!;
 
     public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 }
