@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
@@ -10,6 +11,6 @@ public class AppDbContext : DbContext
     }
 
     // Add DbSet<TEntity> properties here as your domain model grows, for example:
-    // public DbSet<Customer> Customers { get; set; } = null!;
+    public DbSet<Customer> Customers { get; set; } = null!;
 }
 

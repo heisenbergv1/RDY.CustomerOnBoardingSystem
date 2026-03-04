@@ -1,8 +1,9 @@
+using Application;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.IO;
+using Application.Interfaces;
 
 namespace Infrastructure;
 
@@ -16,11 +17,14 @@ public static class DependencyInjection
         var databasePath = Path.Combine(dataDirectory, "app.db");
         var connectionString = $"Data Source={databasePath}";
 
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlite(connectionString));
+        services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
 
-        // Register repository implementations here in the future, for example:
-        // services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
+        });
 
         return services;
     }

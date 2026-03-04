@@ -1,8 +1,16 @@
+using Api.Middleware;
 using Infrastructure;
-using Infrastructure.Persistence;
 using Infrastructure.Extensions;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAppSerilog(serviceName: "API", minimumLevel: LogEventLevel.Information);
+builder.Host.UseSerilog();
+builder.Services.AddHttpContextAccessor();
 
 // Add infrastructure (EF Core + SQLite)
 builder.Services.AddInfrastructure(builder.Configuration, builder.Environment.ContentRootPath);
@@ -16,11 +24,14 @@ builder.Services.AddInfrastructureSwagger("API", "v1");
 
 var app = builder.Build();
 
+// Add as the first middleware after builder.Build() for APIs
+app.UseMiddleware<GlobalExceptionMiddleware>();
+
 // Ensure database is created on first run
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.EnsureCreated();
+    dbContext.Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.
@@ -29,6 +40,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseAppSerilog();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
