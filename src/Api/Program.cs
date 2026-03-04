@@ -1,6 +1,6 @@
 using Infrastructure;
 using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +11,8 @@ builder.Services.AddInfrastructure(builder.Configuration, builder.Environment.Co
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddInfrastructureSwagger("API", "v1");
 
 var app = builder.Build();
 
@@ -30,6 +32,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseInfrastructureSwagger(
+    version: "v1",
+    routePrefix: "swagger",
+    displayName: "API v1");
 
 app.MapControllers();
 

@@ -82,6 +82,8 @@ Logs/*
 *.backup
 .qodo
 *.env
-
-*._gitignore
 *.local
+
+*.db-wal
+*.db-shm
+*.db
