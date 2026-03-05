@@ -132,7 +132,6 @@ Verify:
 
 ```bash
 dotnet --version
-node -v
 ````
 
 Clone:
