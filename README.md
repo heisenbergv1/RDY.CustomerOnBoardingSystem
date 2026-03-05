@@ -86,7 +86,7 @@ Separation enforced:
 Database file location:
 
 ```
-/src/Api/app.db
+/src/Api/Data/app.db
 ````
 
 ---
