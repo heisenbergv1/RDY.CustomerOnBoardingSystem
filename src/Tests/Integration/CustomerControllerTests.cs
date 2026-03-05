@@ -55,12 +55,19 @@ public class CustomerControllerTests : IClassFixture<WebApplicationFactory<Progr
     }
 
     [Theory]
-    [InlineData("", "Doe", "john.doe@example.com", "1234567890", "FirstName")]
-    [InlineData("John", "", "john.doe@example.com", "1234567890", "LastName")]
-    [InlineData("John", "Doe", "invalid-email", "1234567890", "Email")]
-    [InlineData("John", "Doe", "john.doe@example.com", "not-numbers", "PhoneNumber")]
+    [InlineData("", "Doe", "john.doe@example.com", "1234567890", "FirstName", "First name is required")]
+    [InlineData("John", "", "john.doe@example.com", "1234567890", "LastName", "Last name is required")]
+    [InlineData("John123", "Doe", "john.doe@example.com", "1234567890", "FirstName", "First name must contain letters only")]
+    [InlineData("John", "Doe123", "john.doe@example.com", "1234567890", "LastName", "Last name must contain letters only")]
+    [InlineData("John", "Doe", "invalid-email", "1234567890", "Email", "Email must be valid")]
+    [InlineData("John", "Doe", "john.doe@example.com", "not-numbers", "PhoneNumber", "Phone number must contain numbers only")]
     public async Task CreateCustomer_ReturnsValidationErrors_ForInvalidFields(
-        string firstName, string lastName, string email, string phone, string expectedField)
+        string firstName,
+        string lastName,
+        string email,
+        string phone,
+        string expectedField,
+        string expectedErrorMessage)
     {
         var request = new CreateCustomerRequest(
             FirstName: firstName,
@@ -74,7 +81,9 @@ public class CustomerControllerTests : IClassFixture<WebApplicationFactory<Progr
         var content = await response.Content.ReadAsStringAsync();
 
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
         Assert.Contains(expectedField, content);
+        Assert.Contains(expectedErrorMessage, content);
     }
 
     #endregion
@@ -84,13 +93,9 @@ public class CustomerControllerTests : IClassFixture<WebApplicationFactory<Progr
     [Fact]
     public async Task GetCustomer_ReturnsCustomer_WhenExists()
     {
-        // Arrange
         var id = await SeedCustomerAsync();
-
-        // Act
         var response = await _client.GetAsync($"/api/Customer/{id}");
 
-        // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var customer = await response.Content.ReadFromJsonAsync<Customer>();
@@ -101,10 +106,7 @@ public class CustomerControllerTests : IClassFixture<WebApplicationFactory<Progr
     [Fact]
     public async Task GetCustomer_ReturnsNotFound_WhenNotExists()
     {
-        // Act
         var response = await _client.GetAsync("/api/Customer/999999");
-
-        // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
@@ -115,18 +117,14 @@ public class CustomerControllerTests : IClassFixture<WebApplicationFactory<Progr
     [Fact]
     public async Task GetAllCustomers_ReturnsList()
     {
-        // Arrange
         await SeedCustomerAsync();
         await SeedCustomerAsync();
 
-        // Act
         var response = await _client.GetAsync("/api/Customer");
 
-        // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var customers = await response.Content.ReadFromJsonAsync<List<Customer>>();
-
         Assert.NotNull(customers);
         Assert.True(customers!.Count >= 2);
     }
