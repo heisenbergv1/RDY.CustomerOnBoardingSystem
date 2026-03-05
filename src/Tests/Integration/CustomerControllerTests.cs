@@ -54,6 +54,68 @@ public class CustomerControllerTests : IClassFixture<WebApplicationFactory<Progr
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
+
+    [Fact]
+    public async Task CreateCustomer_WithValidSignature_ShouldSucceed()
+    {
+        var request = new CreateCustomerRequest(
+            FirstName: "John",
+            LastName: "Doe",
+            Email: "john.doe@example.com",
+            PhoneNumber: "1234567890",
+            SignatureBase64: Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes("valid-signature"))
+        );
+
+        var response = await _client.PostAsJsonAsync("/api/Customer", request);
+        var content = await response.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<CreateCustomerResponse>(content);
+
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        Assert.NotNull(result);
+        Assert.True(result!.Success);
+        Assert.True(result.CustomerId > 0);
+    }
+
+    [Fact]
+    public async Task CreateCustomer_WithInvalidBase64Signature_ShouldReturnBadRequest()
+    {
+        var request = new CreateCustomerRequest(
+            FirstName: "John",
+            LastName: "Doe",
+            Email: "john.doe@example.com",
+            PhoneNumber: "1234567890",
+            SignatureBase64: "INVALID_BASE64"
+        );
+
+        var response = await _client.PostAsJsonAsync("/api/Customer", request);
+        var content = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Contains("Signature", content);
+        Assert.Contains("valid Base64", content);
+    }
+
+    [Fact]
+    public async Task CreateCustomer_WithEmptyDecodedSignature_ShouldReturnBadRequest()
+    {
+        var emptyBytes = Convert.ToBase64String(Array.Empty<byte>());
+
+        var request = new CreateCustomerRequest(
+            FirstName: "John",
+            LastName: "Doe",
+            Email: "john.doe@example.com",
+            PhoneNumber: "1234567890",
+            SignatureBase64: emptyBytes
+        );
+
+        var response = await _client.PostAsJsonAsync("/api/Customer", request);
+        var content = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Contains("\"SignatureBase64\"", content);
+        Assert.Contains("Signature is required", content);
+    }
+
     [Theory]
     [InlineData("", "Doe", "john.doe@example.com", "1234567890", "FirstName", "First name is required")]
     [InlineData("John", "", "john.doe@example.com", "1234567890", "LastName", "Last name is required")]
