@@ -8,6 +8,19 @@ using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
+
 builder.Services.AddAppSerilog(serviceName: "API", minimumLevel: LogEventLevel.Information);
 builder.Host.UseSerilog();
 builder.Services.AddHttpContextAccessor();
@@ -42,6 +55,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseAppSerilog();
 app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 

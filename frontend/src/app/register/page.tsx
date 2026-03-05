@@ -15,42 +15,71 @@ export default function OnboardingPage() {
     null,
   )
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
   const handleSubmit = async (data: CustomerFormData) => {
     setFormState('submitting')
     setErrorMessage(null)
+
     try {
-      // Simulate API call
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate a 95% success rate
-          if (Math.random() > 0.05) {
-            resolve(true)
-          } else {
-            reject(new Error('Network error occurred during submission.'))
-          }
-        }, 1500)
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL
+
+      if (!apiUrl) {
+        throw new Error('API URL is not configured in environment variables.')
+      }
+
+      // Extract base64 from data URL (remove "data:image/png;base64,")
+      const signatureBase64 = data.signature.split(',')[1]
+
+      const response = await fetch(`${apiUrl}api/Customer`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phoneNumber: data.phone,
+          signatureBase64,
+        }),
       })
+
+      if (!response.ok) {
+        throw new Error('Failed to submit customer registration.')
+      }
+
       setSubmittedData(data)
       setFormState('success')
     } catch (error) {
+      console.error('Error submitting customer registration:', error)
       setErrorMessage(
         error instanceof Error ? error.message : 'An unknown error occurred',
       )
       setFormState('error')
     }
   }
+
   const handleReset = () => {
     setSubmittedData(null)
     setFormState('form')
     setErrorMessage(null)
   }
+
+  const handleBack = () => {
+    router.push('/')
+  }
+
+  const handleSetFormState = () => {
+    setFormState('form')
+  }
+
   return (
     <div className="min-h-screen bg-muted/20 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
       <div className="w-full max-w-3xl">
         {/* Back Button */}
         <button
           type="button"
-          onClick={() => router.push('/')}
+          onClick={handleBack}
           className="mb-4 inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground hover:underline"
         >
           ← Back to customers
@@ -77,7 +106,7 @@ export default function OnboardingPage() {
                 {errorMessage || 'Failed to submit form. Please try again.'}
               </p>
               <button
-                onClick={() => setFormState('form')}
+                onClick={handleSetFormState}
                 className="text-sm font-medium text-destructive hover:underline"
               >
                 Try Again

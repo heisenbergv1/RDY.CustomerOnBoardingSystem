@@ -1,3 +1,4 @@
+// frontend\src\components\register\CustomerForm.tsx
 import React, { useState } from 'react'
 import { SignaturePad } from './SignaturePad'
 import { Loader2Icon } from 'lucide-react'
@@ -17,6 +18,7 @@ interface CustomerFormProps {
 }
 
 export function CustomerForm({ onSubmit, isSubmitting }: CustomerFormProps) {
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -24,10 +26,12 @@ export function CustomerForm({ onSubmit, isSubmitting }: CustomerFormProps) {
     phone: '',
     company: '',
   })
+
   const [signature, setSignature] = useState<string | null>(null)
   const [errors, setErrors] = useState<
     Partial<Record<keyof CustomerFormData, string>>
   >({})
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({
@@ -42,6 +46,7 @@ export function CustomerForm({ onSubmit, isSubmitting }: CustomerFormProps) {
       }))
     }
   }
+
   const handleSignatureChange = (dataUrl: string | null) => {
     setSignature(dataUrl)
     if (errors.signature && dataUrl) {
@@ -51,6 +56,7 @@ export function CustomerForm({ onSubmit, isSubmitting }: CustomerFormProps) {
       }))
     }
   }
+
   const validate = () => {
     const newErrors: Partial<Record<keyof CustomerFormData, string>> = {}
     if (!formData.firstName.trim())
@@ -67,6 +73,7 @@ export function CustomerForm({ onSubmit, isSubmitting }: CustomerFormProps) {
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (validate() && signature) {
@@ -76,6 +83,7 @@ export function CustomerForm({ onSubmit, isSubmitting }: CustomerFormProps) {
       })
     }
   }
+  
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-6">
