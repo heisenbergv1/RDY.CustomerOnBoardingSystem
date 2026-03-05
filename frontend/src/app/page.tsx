@@ -40,6 +40,8 @@ export default function CustomersPage({ initialCustomers }: CustomersPageProps) 
     }
   }, [initialCustomers])
 
+  const handleRegister = () => router.push('/register');
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -56,7 +58,7 @@ export default function CustomersPage({ initialCustomers }: CustomersPageProps) 
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 shrink-0"
-            onClick={() => router.push('/register')}
+            onClick={handleRegister}
           >
             <PlusIcon className="mr-2 h-4 w-4" aria-hidden="true" />
             Add Customer

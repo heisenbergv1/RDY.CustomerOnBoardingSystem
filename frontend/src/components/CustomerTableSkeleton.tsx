@@ -1,6 +1,6 @@
-import React from 'react'
 
 export function CustomerTableSkeleton() {
+  
   return (
     <>
       {Array.from({

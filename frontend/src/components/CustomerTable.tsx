@@ -1,4 +1,3 @@
-import React from 'react'
 import { useRouter } from 'next/navigation'
 import { Customer } from '@/types/customer'
 import { CustomerTableSkeleton } from './CustomerTableSkeleton'
@@ -15,6 +14,8 @@ export function CustomerTable({ customers, isLoading }: CustomerTableProps) {
   if (!isLoading && customers.length === 0) {
     return <CustomerEmptyState />
   }
+
+  const handleView = (customer: Customer) => router.push(`/view/${customer.id}`);
 
   return (
     <div className="w-full overflow-x-auto">
@@ -66,7 +67,7 @@ export function CustomerTable({ customers, isLoading }: CustomerTableProps) {
                 <td className="p-4 align-middle text-right">
                   <button
                     type="button"
-                    onClick={() => router.push(`/customers/${customer.id}`)}
+                    onClick={handleView.bind(null, customer)}
                     className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 px-3"
                   >
                     View

@@ -2,6 +2,15 @@ import { render, screen } from '@testing-library/react'
 import { CustomerTable } from '@/components/CustomerTable'
 import { MOCK_CUSTOMERS } from '@/data/mockCustomer'
 
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    prefetch: jest.fn(),
+  })
+}))
+
 describe('CustomerTable', () => {
   it('renders exact customer data from MOCK_CUSTOMERS', () => {
     render(<CustomerTable customers={MOCK_CUSTOMERS} isLoading={false} />)

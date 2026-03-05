@@ -4,5 +4,6 @@ export interface Customer {
   lastName: string
   email: string
   phoneNumber: string
+  signatureBase64: string
   dateCreated: string
 }
