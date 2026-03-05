@@ -45,6 +45,7 @@ public sealed class CreateCustomerHandler : IRequestHandler<CreateCustomerComman
             LastName = request.LastName,
             Email = request.Email,
             PhoneNumber = request.PhoneNumber,
+            SignatureBase64 = request.SignatureBase64,
             DateCreated = DateTime.UtcNow
         };
 
