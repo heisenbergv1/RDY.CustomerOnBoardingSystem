@@ -13,7 +13,7 @@ export interface CreateCustomerPayload {
  * Keeps API logic separated from UI layer.
  */
 export async function createCustomer(payload: CreateCustomerPayload) {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
   if (!apiUrl) {
     throw new Error(
@@ -66,7 +66,7 @@ export async function createCustomer(payload: CreateCustomerPayload) {
  * Keeps API logic separated from UI layer.
  */
 export async function getCustomers(): Promise<Customer[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
   if (!apiUrl) {
     throw new Error(
@@ -88,7 +88,7 @@ export async function getCustomers(): Promise<Customer[]> {
  * Keeps fetch logic separated from the UI layer.
  */
 export async function getCustomerById(id: string): Promise<Customer> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
 
   if (!apiUrl) {
     throw new Error(
