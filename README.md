@@ -1,6 +1,6 @@
-# API – Backend (.NET)
+# 🚀 API – Backend (.NET)
 
-## Overview
+## 🔎 Overview
 
 This backend implements the **Customer Registration & Onboarding API** using **.NET (Clean Architecture)** with:
 
@@ -15,17 +15,19 @@ This backend implements the **Customer Registration & Onboarding API** using **.
 The backend follows the required layered structure:
 
 ```
+
 /src
-  /Api
-  /Application
-  /Domain
-  /Infrastructure
-  /Tests
+/Api
+/Application
+/Domain
+/Infrastructure
+/Tests
 
 ```
 
+---
 
-## Requirements Coverage Checklist
+## 📋 Requirements Coverage Checklist
 
 ### Functional Requirements
 
@@ -43,9 +45,9 @@ The backend follows the required layered structure:
 
 ---
 
-### Technical Requirements
+## 🏗 Technical Requirements
 
-#### ✅ Architecture
+### ⚙ Architecture
 
 | Layer | Status | Notes |
 |-------|--------|-------|
@@ -62,7 +64,7 @@ Separation enforced:
 
 ---
 
-#### ✅ Backend Requirements
+### ⚙ Backend Requirements
 
 | Requirement | Status |
 |------------|--------|
@@ -74,7 +76,7 @@ Separation enforced:
 
 ---
 
-#### ✅ Database Requirements
+## 🗄 Database
 
 - Uses **SQLite**
 - File-based
@@ -82,43 +84,43 @@ Separation enforced:
 - No external setup required
 
 Database file location:
+
 ```
-
 /src/Api/app.db
-
 ````
 
 ---
 
-#### ✅ Integration Testing
+## 🧪 Integration Testing
 
 | Section | Description | Details |
 |----------|------------|----------|
-| **Integration Testing** | Test approach | API-level integration tests validating the system end-to-end via real HTTP calls against the test server. |
-| | Coverage | Customer creation; Validation rules; Retrieve customer by ID; Retrieve all customers; Database persistence behavior |
-| **Frameworks Used** | Testing framework | xUnit |
-| | API bootstrapping | `Microsoft.AspNetCore.Mvc.Testing` – Bootstraps the API for integration testing |
-| | Serialization | Newtonsoft.Json or System.Text.Json – Used for response deserialization |
+| Integration Testing | Test approach | API-level integration tests validating system behavior via real HTTP calls |
+| | Coverage | Customer creation; Validation; Get by ID; Get all; Persistence |
+| Frameworks Used | Testing framework | xUnit |
+| | API bootstrapping | `Microsoft.AspNetCore.Mvc.Testing` |
+| | Serialization | System.Text.Json / Newtonsoft.Json |
 
 ---
 
-#### Notable Packages & Libraries Used
+## 📦 Notable Packages & Libraries Used
 
-| Category   | Package / Library | Purpose / Notes |
-|------------|------------------|----------------|
-| **Core** | MediatR | Implements CQRS pattern |
-| | Microsoft.EntityFrameworkCore | ORM for data access |
-| | Microsoft.EntityFrameworkCore.Sqlite | SQLite database provider |
-| **Logging** | Serilog | Structured logging |
-| | Serilog – Rolling File Sink | Logs persisted to rotating files |
-| | Serilog – Request Logging Middleware | Logs HTTP request/response pipeline |
-| **Validation** | System.ComponentModel.DataAnnotations | Model validation attributes |
-| | FluentValidation (Optional) | Alternative validation framework if implemented |
-| **Testing** | xUnit | Unit & integration testing framework |
-| | Microsoft.AspNetCore.Mvc.Testing | Bootstraps API for integration tests |
+| Category | Package | Purpose |
+|----------|----------|----------|
+| Core | MediatR | CQRS pattern |
+| | Microsoft.EntityFrameworkCore | ORM |
+| | Microsoft.EntityFrameworkCore.Sqlite | SQLite provider |
+| Logging | Serilog | Structured logging |
+| | Rolling File Sink | Log rotation |
+| | Request Logging Middleware | HTTP pipeline logging |
+| Validation | DataAnnotations | Model validation |
+| | FluentValidation (Optional) | Alternative validation |
+| Testing | xUnit | Testing framework |
+| | Microsoft.AspNetCore.Mvc.Testing | API test bootstrap |
+
 ---
 
-## Setup & Installation
+## ⚡ Setup & Installation
 
 ### Prerequisites
 
@@ -133,28 +135,29 @@ dotnet --version
 node -v
 ````
 
-Clone the project:
-```
+Clone:
+
+```bash
 git clone https://github.com/heisenbergv1/RDY.CustomerOnBoardingSystem.git
 ```
 
 ---
 
-### How to Run Backend
+## ▶ How to Run Backend
 
-#### 1. Navigate to API Project
+### 1. Navigate to API
 
 ```bash
 cd src/Api
 ```
 
-#### 2. Restore Dependencies
+### 2. Restore Dependencies
 
 ```bash
 dotnet restore
 ```
 
-#### 3. Run Database Migration (Auto-Handled)
+### 3. Run Database Migration
 
 Database auto-creates on first run:
 
@@ -164,19 +167,19 @@ dbContext.Database.Migrate();
 
 ---
 
-#### 4. Run Backend
+### 4. Run Application
 
 ```bash
 dotnet run
 ```
 
-Check the listening port:
+Running:
 
 ```
 Now listening on: http://localhost:5064
 ```
 
-API will be available at:
+API:
 
 ```
 http://localhost:5064
@@ -190,9 +193,7 @@ http://localhost:5064/swagger
 
 ---
 
-### 🧪 Run Tests
-
-Navigate to test project:
+## 🧪 Run Tests
 
 ```bash
 cd src/
@@ -201,9 +202,7 @@ dotnet test
 
 ---
 
-#### Database
-
-SQLite database file:
+## 🗄 Database
 
 ```
 app.db
@@ -215,7 +214,7 @@ No external database required.
 
 ---
 
-#### 🔐 Logging
+## 🔐 Logging
 
 Configured with:
 
@@ -223,7 +222,7 @@ Configured with:
 * Global exception middleware
 * Rolling file logs
 
-Logs stored in:
+Logs stored at:
 
 ```
 /Logs
@@ -231,29 +230,29 @@ Logs stored in:
 
 ---
 
-#### 🏗 Project Structure
+## 🏗 Project Structure
 
 ```
 /src
- ├── Api
+ ├── 🖥 Api
  │    ├── Controllers
  │    ├── Middleware
  │    └── DTOs
  │
- ├── Application
+ ├── 🧠 Application
  │    ├── Commands
  │    ├── Queries
  │    ├── Interfaces
  │
- ├── Domain
+ ├── 🏛 Domain
  │    └── Entities
  │
- ├── Infrastructure
+ ├── 💾 Infrastructure
  │    ├── Persistence
  │    ├── Repositories
  │    └── Extensions
  │
- └── Tests
+ └── 🧪 Tests
       ├── Unit
       └── Integration
 ```
@@ -262,18 +261,17 @@ Logs stored in:
 
 ## ✅ Summary
 
-This backend satisfies:
+| Principle / Feature  | Description                                       |
+| -------------------- | ------------------------------------------------- |
+| Clean Architecture   | Clear separation of concerns                      |
+| Layer Separation     | Domain, Application, Infrastructure, API isolated |
+| CQRS                 | Implemented via MediatR                           |
+| SQLite Persistence   | File-based database                               |
+| Dependency Injection | Managed via container                             |
+| Logging              | Structured logging integrated                     |
+| Validation           | Input validation enforced                         |
+| Integration Testing  | Automated API tests                               |
 
-| Principle / Feature | Description |
-|--------------------|------------|
-| Clean Architecture | Clear separation of concerns between layers |
-| Proper Layer Separation | Domain, Application, Infrastructure, and API layers isolated |
-| CQRS with MediatR | Command/Query separation implemented using MediatR |
-| SQLite Persistence | Data stored using SQLite provider |
-| Dependency Injection | Services and dependencies registered via DI container |
-| Logging | Structured logging integrated into the application |
-| Validation | Input and model validation implemented |
-| Integration Testing | Automated API integration tests included |
 ---
 
 If extended further, this project can scale by adding:
@@ -285,10 +283,11 @@ If extended further, this project can scale by adding:
 * Docker support
 * CI/CD pipeline
 
+---
 
-# Frontend – React Application
+# 💻 Frontend – React Application
 
-## Overview
+## 🌐 Overview
 
 This project implements the **Customer Onboarding UI** for the Customer Registration & Onboarding System.
 
@@ -301,11 +300,11 @@ The frontend is responsible for:
 * Displaying confirmation after successful registration
 * Viewing customer records
 
-It is built using **React + Next.js** with functional components and clean separation of concerns.
+Built with **React + Next.js** using functional components and clean architecture principles.
 
 ---
 
-## ✅ Requirements Coverage (Frontend)
+## 📋 Requirements Coverage (Frontend)
 
 ### Functional Requirements
 
@@ -320,25 +319,28 @@ It is built using **React + Next.js** with functional components and clean separ
 
 ---
 
-### Technical Requirements
-
-#### Architecture
+## 🏗 Technical Architecture
 
 Frontend follows a structured layout:
 
 ```
+
 /frontend
   /src
-    /app
-    /components
-    /data
-    /types
-    /lib
+  /app
+  /components
+  /services
+  /data
+  /types
+  /lib
+
 ```
 
-### Implementation Requirements
+---
 
-#### ✅ Functional Components
+## ⚙ Implementation Details
+
+### 🧩 Functional Components
 
 All UI elements are implemented using:
 
@@ -346,27 +348,28 @@ All UI elements are implemented using:
 * Hooks (`useState`, `useEffect`, `useCallback`)
 * No class components
 
+---
 
-#### ✅ Signature Capture
+### ✍ Signature Capture
 
-Signature is implemented using:
+Signature implemented with:
 
 * HTML `<canvas>`
-* Mouse/touch event listeners
+* Mouse & touch event listeners
 * Export to Base64 string
 * Sent to backend as image string
 
 Storage format:
 
-* Base64 image string included in request payload
+* Base64 string included in request payload
 
+---
 
-#### ✅ API Communication
+### 🔌 API Communication
 
 Frontend communicates with backend via:
 
 * REST endpoints:
-
   * `POST /api/customers`
   * `GET /api/customers`
   * `GET /api/customers/{id}`
@@ -376,22 +379,25 @@ Implementation uses:
 * `fetch`
 * Error handling for failed requests
 
+---
 
-#### ✅ Validation
+### ✅ Validation
 
-Basic validation implemented:
+Validation rules:
 
 * Required fields enforced
 * Email format validation
 * Signature required
-* Error messages displayed inline
+* Inline error messages displayed
 
-#### ✅ Routing
+---
+
+### 🧭 Routing
 
 Routing handled using:
 
 * Next.js App Router (`next/navigation`)
-* Page-based routing for:
+* Page-based routing:
 
   * Register page
   * Customer list page
@@ -399,9 +405,9 @@ Routing handled using:
 
 ---
 
-### 📦 Notable Packages / Libraries
+## 📦 Notable Packages / Libraries
 
-#### Core
+### Core
 
 | Package      | Purpose             |
 | ------------ | ------------------- |
@@ -409,10 +415,9 @@ Routing handled using:
 | `next`       | Routing + framework |
 | `typescript` | Type safety         |
 
-
 ---
 
-#### Testing
+### 🧪 Testing
 
 | Package                     | Purpose           |
 | --------------------------- | ----------------- |
@@ -432,27 +437,30 @@ Tests cover:
 
 ## 🚀 Installation
 
-### Prerequisites
+### 📌 Prerequisites
 
 * Node.js ≥ 18
 * npm or yarn
 
-Clone the project:
+Clone:
+
 ```
 git clone https://github.com/heisenbergv1/RDY.CustomerOnBoardingSystem.git
-```
+````
 
-### Environment Setup
+---
+
+### ⚙ Environment Setup
 
 #### Copy Environment File
 
-Before running the frontend, create your environment file:
+Create environment file:
 
 ```bash
 cp .env.example .env
-```
+````
 
-On Windows (Command Prompt):
+Windows:
 
 ```bash
 copy .env.example .env
@@ -460,16 +468,17 @@ copy .env.example .env
 
 ---
 
-#### Set API URL
+#### Configure API URL
 
-Open `.env` and set:
+Set in `.env`:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5064/
 ```
+
 ---
 
-### Install Dependencies
+### 📦 Install Dependencies
 
 ```bash
 cd frontend
@@ -484,15 +493,15 @@ yarn install
 
 ---
 
-### ▶️ Running the Frontend
+## ▶ Running the Frontend
 
-#### Development Mode
+### 🚀 Development Mode
 
 ```bash
 npm run dev
 ```
 
-Runs on:
+Runs at:
 
 ```
 http://localhost:3000
@@ -500,7 +509,7 @@ http://localhost:3000
 
 ---
 
-#### Production Build
+### 🏗 Production Build
 
 ```bash
 npm run build
@@ -509,7 +518,7 @@ npm start
 
 ---
 
-#### Run Unit Tests
+### 🧪 Run Tests
 
 ```bash
 npm test
@@ -523,34 +532,31 @@ npm run test -- --watch
 
 ---
 
-## 🧪 Verify Requirements Are Satisfied
+## 🔎 Verify Requirements
 
-After running the app, confirm:
+After running:
 
-### ✅ Form loads correctly
+### ✔ Form Loads
 
-* All required fields visible
+* Fields visible
 * Signature canvas renders
 
-### ✅ Validation works
+### ✔ Validation Works
 
-* Error messages appear for missing fields
-* Invalid email blocked
+* Errors shown for invalid input
+* Email blocked if invalid
 
-### ✅ Submission works
+### ✔ Submission Works
 
 * Data sent to backend
-* Success confirmation shown
+* Success message displayed
 
-### ✅ Table works
+### ✔ Table Works
 
-* Customers displayed
-* "View" navigates to detail page
+* Customers rendered
+* View navigates to detail page
 
-### ✅ Tests Pass
+### ✔ Tests Pass
 
-* Jest tests pass
-* Coverage includes key components
-
----
-
+* Jest tests succeed
+* Coverage includes core components
