@@ -2,7 +2,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { PlusIcon } from 'lucide-react'
+import { PlusIcon, RefreshCcw } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { CustomerTable } from '@/components/customers/CustomerTable'
 import { Customer } from '@/types/customer'
@@ -17,20 +17,27 @@ export default function CustomersPage({ initialCustomers }: CustomersPageProps) 
 
   const [customers, setCustomers] = useState<Customer[]>(initialCustomers || [])
   const [isLoading, setIsLoading] = useState(!initialCustomers?.length)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchCustomers = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      const data = await getCustomers()
+      setCustomers(data)
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong while loading customers.'
+      )
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   useEffect(() => {
     if (!initialCustomers) {
-      const fetchCustomers = async () => {
-        try {
-          setIsLoading(true)
-          const data = await getCustomers()
-          setCustomers(data)
-        } catch (error) {
-          console.error('Error fetching customers:', error)
-        } finally {
-          setIsLoading(false)
-        }
-      }
       fetchCustomers()
     }
   }, [initialCustomers])
@@ -59,6 +66,24 @@ export default function CustomersPage({ initialCustomers }: CustomersPageProps) 
             Add Customer
           </button>
         </div>
+        {error && (
+          <div className="mb-6 rounded-lg border border-destructive/30 bg-destructive/10 p-4 text-destructive">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-semibold">Oops! Something went wrong</p>
+                <p className="text-sm mt-1">{error}</p>
+              </div>
+
+              <button
+                onClick={fetchCustomers}
+                className="inline-flex items-center gap-2 rounded-md bg-destructive px-3 py-2 text-sm font-medium text-white hover:bg-destructive/90"
+              >
+                <RefreshCcw className="h-4 w-4" />
+                Retry
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Customer List Section */}
         <div className="rounded-lg border border-border bg-card text-card-foreground shadow-sm overflow-hidden">

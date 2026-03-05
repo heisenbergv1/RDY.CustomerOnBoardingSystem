@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { CustomerForm, CustomerFormData } from '@/components/register/CustomerForm'
 import { ConfirmationCard } from '@/components/register/ConfirmationCard'
-import { ShieldCheckIcon } from 'lucide-react'
+import { ShieldCheckIcon, Loader2 } from 'lucide-react'
 import { createCustomer } from '@/services/customerService'
 import { validateCustomerForm } from '@/lib/validation/customerValidation'
 
@@ -30,7 +30,8 @@ export default function OnboardingPage() {
     }
 
     try {
-      // Extract base64 from data URL (remove "data:image/png;base64,")
+      // Simulate long request for better UX demo (optional)
+      await new Promise((resolve) => setTimeout(resolve, 500))
       const signatureBase64 = data.signature.split(',')[1]
 
       await createCustomer({
@@ -92,7 +93,18 @@ export default function OnboardingPage() {
         </div>
 
         {/* Main Content Card */}
-        <div className="bg-card text-card-foreground rounded-xl border border-border shadow-sm overflow-hidden">
+        <div className="relative bg-card text-card-foreground rounded-xl border border-border shadow-sm overflow-hidden">
+          {formState === 'submitting' && (
+            <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-background/80 backdrop-blur-md">
+              <Loader2 className="h-10 w-10 animate-spin text-primary mb-4" />
+              <p className="text-sm font-medium text-foreground">
+                Processing your request...
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Please wait while we securely save your data.
+              </p>
+            </div>
+          )}
           {formState === 'error' && (
             <div className="bg-destructive/10 border-b border-destructive/20 p-4 flex items-center justify-between">
               <p className="text-sm text-destructive font-medium">

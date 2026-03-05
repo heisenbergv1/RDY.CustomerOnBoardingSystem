@@ -109,7 +109,6 @@ Database file location:
 | **Core** | MediatR | Implements CQRS pattern |
 | | Microsoft.EntityFrameworkCore | ORM for data access |
 | | Microsoft.EntityFrameworkCore.Sqlite | SQLite database provider |
-| | Microsoft.EntityFrameworkCore.InMemory | Used for testing database scenarios |
 | **Logging** | Serilog | Structured logging |
 | | Serilog – Rolling File Sink | Logs persisted to rotating files |
 | | Serilog – Request Logging Middleware | Logs HTTP request/response pipeline |

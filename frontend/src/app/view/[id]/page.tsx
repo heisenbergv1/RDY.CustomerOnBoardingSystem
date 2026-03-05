@@ -33,6 +33,8 @@ export default function ViewPage() {
   const fetchCustomer = useCallback(async () => {
     try {
       setIsLoading(true)
+      // Simulate long request for demo purposes
+      await new Promise((resolve) => setTimeout(resolve, 200))
       const data = await getCustomerById(id)
       setCustomer(data)
     } catch (err) {
@@ -52,8 +54,29 @@ export default function ViewPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        Loading...
+      <div className="min-h-screen bg-muted/30 p-4 md:p-8">
+        <div className="mx-auto max-w-4xl space-y-6 animate-pulse">
+          {/* Header Skeleton */}
+          <div className="h-8 w-64 bg-muted rounded-md" />
+          <div className="h-4 w-32 bg-muted rounded-md" />
+          {/* Card Skeleton */}
+          <div className="rounded-lg border bg-card p-6 space-y-6">
+            <div className="h-6 w-48 bg-muted rounded-md" />
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="space-y-2">
+                  <div className="h-4 w-24 bg-muted rounded-md" />
+                  <div className="h-4 w-full bg-muted rounded-md" />
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Signature Skeleton */}
+          <div className="rounded-lg border bg-card p-6 space-y-4">
+            <div className="h-6 w-32 bg-muted rounded-md" />
+            <div className="h-32 w-full bg-muted rounded-md" />
+          </div>
+        </div>
       </div>
     )
   }
