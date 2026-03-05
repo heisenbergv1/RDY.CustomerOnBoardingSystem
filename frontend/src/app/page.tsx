@@ -6,6 +6,7 @@ import { PlusIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { CustomerTable } from '@/components/customers/CustomerTable'
 import { Customer } from '@/types/customer'
+import { getCustomers } from '@/services/customerService'
 
 interface CustomersPageProps {
   initialCustomers?: Customer[]
@@ -13,7 +14,7 @@ interface CustomersPageProps {
 
 export default function CustomersPage({ initialCustomers }: CustomersPageProps) {
   const router = useRouter()
-  
+
   const [customers, setCustomers] = useState<Customer[]>(initialCustomers || [])
   const [isLoading, setIsLoading] = useState(!initialCustomers?.length)
 
@@ -22,13 +23,7 @@ export default function CustomersPage({ initialCustomers }: CustomersPageProps) 
       const fetchCustomers = async () => {
         try {
           setIsLoading(true)
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL
-          if (!apiUrl) throw new Error('API URL is not configured in environment variables.')
-          const response = await fetch(`${apiUrl}api/Customer`)
-          if (!response.ok) {
-            throw new Error('Failed to fetch customers')
-          }
-          const data: Customer[] = await response.json()
+          const data = await getCustomers()
           setCustomers(data)
         } catch (error) {
           console.error('Error fetching customers:', error)
@@ -40,7 +35,7 @@ export default function CustomersPage({ initialCustomers }: CustomersPageProps) 
     }
   }, [initialCustomers])
 
-  const handleRegister = () => router.push('/register');
+  const handleRegister = () => router.push('/register')
 
   return (
     <div className="min-h-screen bg-background">

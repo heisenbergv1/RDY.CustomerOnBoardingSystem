@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef, memo } from 'react'
+import React, { useCallback, useEffect, useState, useRef } from 'react'
 import { EraserIcon } from 'lucide-react'
 
 interface SignaturePadProps {

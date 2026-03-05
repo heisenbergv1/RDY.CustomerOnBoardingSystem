@@ -1,10 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { CustomerForm, CustomerFormData } from '@/components/register/CustomerForm'
 import { ConfirmationCard } from '@/components/register/ConfirmationCard'
 import { ShieldCheckIcon } from 'lucide-react'
+import { createCustomer } from '@/services/customerService'
+import { validateCustomerForm } from '@/lib/validation/customerValidation'
 
 type FormState = 'form' | 'submitting' | 'success' | 'error'
 
@@ -20,33 +22,24 @@ export default function OnboardingPage() {
     setFormState('submitting')
     setErrorMessage(null)
 
+    const validationError = validateCustomerForm(data)
+    if (validationError) {
+      setErrorMessage(validationError)
+      setFormState('error')
+      return
+    }
+
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL
-
-      if (!apiUrl) {
-        throw new Error('API URL is not configured in environment variables.')
-      }
-
       // Extract base64 from data URL (remove "data:image/png;base64,")
       const signatureBase64 = data.signature.split(',')[1]
 
-      const response = await fetch(`${apiUrl}api/Customer`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          phoneNumber: data.phone,
-          signatureBase64,
-        }),
+      await createCustomer({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phoneNumber: data.phone,
+        signatureBase64,
       })
-
-      if (!response.ok) {
-        throw new Error('Failed to submit customer registration.')
-      }
 
       setSubmittedData(data)
       setFormState('success')

@@ -8,6 +8,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     lastName: 'Martin',
     email: 'olivia.martin@email.com',
     phoneNumber: '+1 (555) 123-4567',
+    signatureBase64: 'abc',
     dateCreated: '2023-10-15T09:30:00Z',
   },
   {
@@ -16,6 +17,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     lastName: 'Lee',
     email: 'jackson.lee@email.com',
     phoneNumber: '+1 (555) 987-6543',
+    signatureBase64: 'abc',
     dateCreated: '2023-10-18T14:15:00Z',
   },
   {
@@ -24,6 +26,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     lastName: 'Nguyen',
     email: 'isabella.nguyen@email.com',
     phoneNumber: '+1 (555) 456-7890',
+    signatureBase64: 'abc',
     dateCreated: '2023-11-02T11:45:00Z',
   },
   {
@@ -32,6 +35,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     lastName: 'Kim',
     email: 'william.kim@email.com',
     phoneNumber: '+1 (555) 234-5678',
+    signatureBase64: 'abc',
     dateCreated: '2023-11-20T16:20:00Z',
   },
   {
@@ -40,6 +44,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     lastName: 'Davis',
     email: 'sofia.davis@email.com',
     phoneNumber: '+1 (555) 876-5432',
+    signatureBase64: 'abc',
     dateCreated: '2023-12-05T08:10:00Z',
   }
 ]

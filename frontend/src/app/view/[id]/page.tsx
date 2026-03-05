@@ -9,6 +9,7 @@ import {
   UserIcon,
 } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { Button } from '@/components/Button'
 import {
   Card,
@@ -18,6 +19,7 @@ import {
   CardTitle,
 } from '@/components/Card'
 import { Customer } from '@/types/customer'
+import { getCustomerById } from '@/services/customerService'
 
 export default function ViewPage() {
   const router = useRouter()
@@ -31,11 +33,7 @@ export default function ViewPage() {
   const fetchCustomer = useCallback(async () => {
     try {
       setIsLoading(true)
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL
-      if (!apiUrl) throw 'API URL is not configured in environment variables.';
-      const response = await fetch(`${apiUrl}api/Customer/${id}`)
-      if (!response.ok) throw new Error('Failed to fetch customer')
-      const data = await response.json()
+      const data = await getCustomerById(id)
       setCustomer(data)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
@@ -147,14 +145,14 @@ export default function ViewPage() {
             <CardHeader>
               <CardTitle>Signature</CardTitle>
               <CardDescription>
-                Customer's electronic signature on file.
+                Customer&apos;s electronic signature on file.
               </CardDescription>
             </CardHeader>
 
             <CardContent>
               <div className="rounded-md border bg-white p-4 flex items-center justify-center min-h-[150px]">
                 {customer.signatureBase64 ? (
-                  <img
+                  <Image
                     data-testid="signature-image"
                     src={
                       customer.signatureBase64.startsWith('data:')
@@ -163,11 +161,13 @@ export default function ViewPage() {
                     }
                     alt={`Signature of ${customer.firstName} ${customer.lastName}`}
                     className="max-h-[100px] w-auto object-contain opacity-80"
+                    width={300}
+                    height={150}
                   />
                 ) : (
-                    <p className="text-sm text-muted-foreground italic">
-                      No signature on file
-                    </p>
+                  <p className="text-sm text-muted-foreground italic">
+                    No signature on file
+                  </p>
                 )}
               </div>
             </CardContent>

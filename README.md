@@ -205,7 +205,7 @@ npm run test -- --watch
 
 ---
 
-## 🧪 HVerify Requirements Are Satisfied
+## 🧪 Verify Requirements Are Satisfied
 
 After running the app, confirm:
 
@@ -425,7 +425,7 @@ https://localhost:44335/swagger
 Navigate to test project:
 
 ```bash
-cd src/Tests
+cd src/
 ```
 
 Run:
@@ -456,7 +456,6 @@ Configured with:
 
 * Request logging middleware
 * Global exception middleware
-* Console logs
 * Rolling file logs
 
 Logs stored in:
