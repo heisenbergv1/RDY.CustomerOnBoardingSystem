@@ -17,11 +17,11 @@ The backend follows the required layered structure:
 ```
 
 /src
-/Api
-/Application
-/Domain
-/Infrastructure
-/Tests
+  /Api
+  /Application
+  /Domain
+  /Infrastructure
+  /Tests
 
 ```
 
