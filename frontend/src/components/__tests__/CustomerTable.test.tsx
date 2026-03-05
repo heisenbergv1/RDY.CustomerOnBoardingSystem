@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { CustomerTable } from '@/components/CustomerTable'
+import { CustomerTable } from '@/components/customers/CustomerTable'
 import { MOCK_CUSTOMERS } from '@/data/mockCustomer'
 
 jest.mock('next/navigation', () => ({

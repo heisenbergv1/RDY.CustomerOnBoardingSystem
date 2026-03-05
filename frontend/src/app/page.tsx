@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react'
 import { PlusIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { CustomerTable } from '@/components/CustomerTable'
+import { CustomerTable } from '@/components/customers/CustomerTable'
 import { Customer } from '@/types/customer'
 
 interface CustomersPageProps {
