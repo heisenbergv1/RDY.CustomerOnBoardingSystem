@@ -6,7 +6,6 @@ import { PlusIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { CustomerTable } from '@/components/CustomerTable'
 import { Customer } from '@/types/customer'
-import { MOCK_CUSTOMERS } from '@/data/mockCustomer'
 
 interface CustomersPageProps {
   initialCustomers?: Customer[]
@@ -20,11 +19,24 @@ export default function CustomersPage({ initialCustomers }: CustomersPageProps) 
 
   useEffect(() => {
     if (!initialCustomers) {
-      const timer = setTimeout(() => {
-        // setCustomers(MOCK_CUSTOMERS)
-        setIsLoading(false)
-      }, 1500)
-      return () => clearTimeout(timer)
+      const fetchCustomers = async () => {
+        try {
+          setIsLoading(true)
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL
+          if (!apiUrl) throw new Error('API URL is not configured in environment variables.')
+          const response = await fetch(`${apiUrl}api/Customer`)
+          if (!response.ok) {
+            throw new Error('Failed to fetch customers')
+          }
+          const data: Customer[] = await response.json()
+          setCustomers(data)
+        } catch (error) {
+          console.error('Error fetching customers:', error)
+        } finally {
+          setIsLoading(false)
+        }
+      }
+      fetchCustomers()
     }
   }, [initialCustomers])
 
